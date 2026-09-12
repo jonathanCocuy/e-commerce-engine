@@ -1,28 +1,26 @@
 import { FilterOptions, Product } from "@/types/product";
 import { MOCK_PRODUCTS } from "@/data/products";
 
-export const getFilteredProducts = (filters : FilterOptions) => {
-    
+export const getFilteredProducts = (filters: FilterOptions) => {
+
     return MOCK_PRODUCTS.filter((product: Product) => {
-        if(product.category !== filters.category) {
+        if (filters.category && product.category !== filters.category) {
             return false
         }
 
-        if(filters.tag) {
-            return product.tags[0] === filters.tag
+        if (filters.tag && !product.tags.includes(filters.tag)) {
+            return false
         }
 
-        if(filters.brand) {
-            return product.brand === filters.brand
+        if (filters.brand && product.brand !== filters.brand) {
+            return false
         }
 
-        if(filters.onlyInStock) {
-            return product.inStock && filters.onlyInStock > 0
+        if (filters.onlyInStock && !product.inStock) {
+            return false
         }
 
-        if(filters.onlyInStock) {
-            return product.inStock && filters.onlyInStock > 0
-        }
+        
 
         return MOCK_PRODUCTS;
     })
