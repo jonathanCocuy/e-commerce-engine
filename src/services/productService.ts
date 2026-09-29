@@ -3,7 +3,7 @@ import { MOCK_PRODUCTS } from "@/data/products";
 
 export const getFilteredProducts = (filters: FilterOptions) => {
 
-    return MOCK_PRODUCTS.filter((product: Product) => {
+    const filteredProducts = MOCK_PRODUCTS.filter((product: Product) => {
         if (filters.category && product.category !== filters.category) {
             return false
         }
@@ -20,9 +20,29 @@ export const getFilteredProducts = (filters: FilterOptions) => {
             return false
         }
 
-        
+        if ((filters.minPrice !== undefined && product.price < filters.minPrice)) {
+                return false
+        }
 
-        return MOCK_PRODUCTS;
-    })
+        if ((filters.maxPrice !== undefined && product.price > filters.maxPrice)) {
+                return false
+        }
+        return true;
+    });
+
+    
+    if (filters.sortBy === "asc") {
+        return [...filteredProducts].sort((a, b) => a.price - b.price)
+    }
+
+    if (filters.sortBy === "desc") {
+        return [...filteredProducts].sort((a, b) => b.price - a.price)
+    }
+
+    if (filters.sortBy === "newest") {
+        return [...filteredProducts].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    }
+
+    return filteredProducts;
 
 }

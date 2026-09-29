@@ -7,8 +7,10 @@ export interface Product {
     rating: number[],
     tags: string[],
     inStock: number
+    createdAt: string;
 }
 
+export type SortOptions = 'asc' | 'desc' | 'newest';
 export interface FilterOptions {
     category?: string, //
     maxPrice?: number,
@@ -16,4 +18,6 @@ export interface FilterOptions {
     tag?: string, //
     onlyInStock?: number; //
     brand?: string //
+    sortBy?: SortOptions
 } 
+
